@@ -1,0 +1,26 @@
+# Ignore virtual environment files (if using venv, pipenv, etc.)
+venv/
+.venv/
+.env/
+
+# Ignore IDE and text editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.suo
+.ntvs_analysis.dat
+_pycache/
+
+# Ignore compiled Python files
+*.pyc
+__pycache__/
+
+# Ignore OS or system-generated files
+.DS_Store
+Thumbs.db
+
+# Ignore sensitive information (config files, credentials, keys)
+config.py
+secrets.json
+.env
