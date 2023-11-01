@@ -1,5 +1,6 @@
 import requests  # Import the requests library
-import config  # Assuming you have a 'config.py' file with your API key
+import config
+
 
 def send_to_openai_gpt3(text):
     if text:
@@ -7,13 +8,13 @@ def send_to_openai_gpt3(text):
 
         headers = {
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {config.openai_api_key}"  # Set your API key
+            "Authorization": f"Bearer {config.openai_api_key}",  # Set your API key
         }
 
         payload = {
             "model": "gpt-3.5-turbo",
             "messages": [{"role": "user", "content": text}],
-            "temperature": 0.7
+            "temperature": 0.7,
         }
 
         response = requests.post(url, headers=headers, json=payload)
@@ -29,7 +30,6 @@ def send_to_openai_gpt3(text):
     else:
         return None
 
-# The rest of your script remains the same
 
 if __name__ == "__main__":
     user_input = input("Enter a prompt for GPT-3: ")

@@ -1,60 +1,63 @@
-from gpt3_interaction import send_to_openai_gpt3
-from flask import Flask, render_template, request
 import speech_recognition as sr
-import requests
-import openai
-import time
+from flask import Flask, render_template, send_from_directory
+from flask_socketio import SocketIO
+from gpt3_interaction import send_to_openai_gpt3
 
-# Set your OpenAI API key
-import config
+
+# Initialize the Flask app and SocketIO
+app = Flask(__name__)
+socketio = SocketIO(app)
+app.config["UPLOAD_FOLDER"] = "static"  # Set your static folder name
+
 
 # Initialize the recognizer
 recognizer = sr.Recognizer()
 recognizer.energy_threshold = 300  # Adjust as needed
-
-# Set up OpenAI API key
-openai.api_key = config.openai_api_key  # Replace with your API key
-
-
-def listen_and_convert_to_text():
-    with sr.Microphone() as source:
-        print("Listening...")
-        try:
-            audio = recognizer.listen(
-                source, timeout=10
-            )  # Listen for 10 seconds, adjust as needed
-            text = recognizer.recognize_google(audio)
-            print("Spoken text:", text)  # Print the spoken text
-
-            return text
-        except sr.UnknownValueError:
-            print("Could not understand audio")
-            return None
-        except sr.RequestError as e:
-            print(f"Could not request results; {e}")
-            return None
+listening = False  # Flag for listening state
+microphone = sr.Microphone()  # Store the microphone instance
 
 
-# def send_to_openai_gpt3(text):
-#     if text:
-#         response = openai.Completion.create(
-#             engine="davinci",
-#             prompt=text,
-#             max_tokens=50,
-#         )
+@app.route("/static/<filename>")
+def serve_static(filename):
+    return send_from_directory("static", filename)
 
-#         generated_text = response.choices[0].text
-#         print("Generated text from GPT-3:", generated_text)
-#         return generated_text
-#     else:
-#         return None
+
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+
+@socketio.on("start_listening")
+def start_listening():
+    global listening, microphone
+    if not listening:
+        with sr.Microphone() as source:
+            print("Listening...")
+            listening = True
+            microphone = source  # Store the microphone instance
+            try:
+                audio = recognizer.listen(source, timeout=10)
+                text = recognizer.recognize_google(audio)
+                print("Spoken text:", text)  # Print the spoken text
+                # socketio.emit("response", text)
+                # Simulate GPT-3 response (replace this with your actual GPT-3 logic)
+                gpt3_response = send_to_openai_gpt3(text)
+                socketio.emit("response", gpt3_response)
+            except sr.UnknownValueError:
+                print("Could not understand audio")
+            except sr.RequestError as e:
+                print(f"Could not request results; {e}")
+        listening = False
+
+
+@socketio.on("stop_listening")
+def stop_listening():
+    global listening, microphone
+    listening = False
+    if microphone:
+        microphone.__exit__(None, None, None)
+
 
 if __name__ == "__main__":
-    while True:
-        spoken_text = listen_and_convert_to_text()
-        if spoken_text:
-            gpt3_response = send_to_openai_gpt3(spoken_text)
-            # You can use gpt3_response as needed in your application
-
-            # Wait for 5 seconds before listening again, adjust as needed
-            time.sleep(10)
+    # Start the Flask-SocketIO server
+    socketio.run(app)
