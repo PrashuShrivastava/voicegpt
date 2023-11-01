@@ -1,0 +1,85 @@
+/* Add a dark theme to your web page */
+body.dark-theme {
+    background-color: #293040;
+    /* Dark background color */
+    color: #ffffff;
+    /* Light text color */
+}
+
+/* Style the buttons */
+.dark-theme button {
+    background-color: #555;
+    /* Dark button background color */
+    color: #fff;
+    /* Light text color on a dark button */
+}
+
+.logo {
+    background-image: url("{{ url_for('static', filename='my_logo.png') }}");
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 100px;
+    /* Set the width as needed */
+    height: 100px;
+    /* Set the height as needed */
+}
+
+
+h1 {
+    color: #ffffff;
+    /* Light text color for headings */
+}
+
+button {
+    background-color: #333;
+    /* Dark background color for buttons */
+    color: #ffffff;
+    /* Light text color for buttons */
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #555;
+    /* Slightly lighter background color on hover */
+}
+
+#response {
+    background-color: #333;
+    /* Dark background color for response area */
+    color: #ffffff;
+    /* Light text color for response text */
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #444;
+    /* Dark border */
+    border-radius: 5px;
+}
+
+
+.centered {
+    text-align: center;
+}
+
+/* Center the button container horizontally */
+.button-container {
+    text-align: center;
+}
+
+/* Add margin between buttons */
+.button-container button {
+    margin: 10px;
+}
+
+/* Add this CSS to your styles.css file */
+.response-container {
+    height: 400px;
+    /* Adjust the height as needed to fit your window */
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    border: 1px solid #ccc;
+    /* Add a border for visual separation */
+}
+
+/* You can customize the styles further as needed */

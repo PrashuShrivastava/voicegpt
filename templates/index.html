@@ -1,0 +1,110 @@
+<!-- <!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> <!-- Link to your CSS file -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/themes/prism.min.css"> -->
+<!-- PrismJS CSS -->
+
+
+<!-- </head>
+
+<body class="dark-theme">
+    <div class="centered">
+        <img src="{{ url_for('static', filename='my_logo.png') }}" alt="My Logo"
+            style="width: 400px; height: 100px; display: block; margin: 0 auto;">
+    </div>
+    <div class="button-container">
+        <button id="startButton">Start</button>
+        <button id="stopButton">Stop</button>
+    </div> -->
+<!-- <div class="response-container"> -->
+<!-- <pre><code class="language-javascript" id="response"></code></pre> -->
+<!-- </div> -->
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/prism.min.js"></script> <!-- PrismJS script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/components/prism-javascript.min.js"></script> -->
+<!-- PrismJS JavaScript language plugin -->
+
+<!-- <script>
+        const startButton = document.getElementById("startButton");
+        const stopButton = document.getElementById("stopButton");
+        const responseText = document.getElementById("response");
+
+        const socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        socket.on('response', function (data) {
+            responseText.textContent += data + '\n'; // Add a new line between responses
+            Prism.highlightElement(responseText);
+
+        });
+
+        startButton.addEventListener("click", function () {
+            // Send a request to start listening
+            socket.emit('start_listening');
+        });
+
+        stopButton.addEventListener("click", function () {
+            // Send a request to stop listening (if needed)
+            socket.emit('stop_listening');
+        });
+    </script>
+</body>
+
+</html> -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> <!-- Link to your CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/themes/prism.min.css">
+    <!-- PrismJS CSS -->
+</head>
+
+<body class="dark-theme">
+    <div class="centered">
+        <img src="{{ url_for('static', filename='my_logo.png') }}" alt="My Logo"
+            style="width: 400px; height: 100px; display: block; margin: 0 auto;">
+    </div>
+    <div class="button-container">
+        <button id="startButton">Start</button>
+        <button id="stopButton">Stop</button>
+    </div>
+    <div class="response-container">
+        <pre><code class="language-javascript" id="response"></code></pre>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/prism.min.js"></script> <!-- PrismJS script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/components/prism-javascript.min.js"></script>
+    <!-- PrismJS JavaScript language plugin -->
+
+    <script>
+        const startButton = document.getElementById("startButton");
+        const stopButton = document.getElementById("stopButton");
+        const responseText = document.getElementById("response");
+
+        const socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        socket.on('response', function (data) {
+            // Create a new <pre> element for each response and append it to the container
+            const responseElement = document.createElement("pre");
+            responseElement.textContent = data;
+            responseText.appendChild(responseElement);
+            Prism.highlightElement(responseElement);
+        });
+
+        startButton.addEventListener("click", function () {
+            // Send a request to start listening
+            socket.emit('start_listening');
+        });
+
+        stopButton.addEventListener("click", function () {
+            // Send a request to stop listening (if needed)
+            socket.emit('stop_listening');
+        });
+    </script>
+</body>
+
+</html>
